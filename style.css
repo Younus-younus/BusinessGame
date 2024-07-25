@@ -1,0 +1,219 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header .player-info {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 2px;
+    height: 90px;
+}
+
+header .player {
+    background-color: #444;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    font-size: 12px;
+    width: 180px;
+}
+
+header .player h2 {
+    margin: 0;
+}
+
+header .player p {
+    margin: 5px 0;
+}
+#player1 {
+    background-color: #992017;
+}
+#player2 {
+    background-color: #07386d;
+}
+
+main {
+    padding: 20px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(9, 100px);
+    grid-template-rows: repeat(2, 100px);
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.property {
+    background-color: #ddd;
+    border: 1px solid #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px !important;
+    height: 100px !important;
+    width: 100px !important;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+}
+.propertyimg {
+    width: 100px !important;
+    height: 40px !important;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+.jail-image, .rest-image, .club-image {
+    width: 100%;
+    height: 100%;
+}
+
+/* .club-text {
+    position: absolute;
+    bottom: 60px;
+} */
+/* .card-body {
+    margin-top: 0 !important;
+} */
+.card {
+    height: 100px !important;
+    border: 1px solid black !important;
+}
+.card:hover {
+    border: 2px solid black !important;
+}
+
+.start {
+    /* background-color: #4CAF50;
+    color: #fff; */
+    height: 100px;
+    width: 100px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+.img-text {
+    position: absolute;
+    color: #000000;
+    font-size: 10px;
+    align-self: last baseline;
+    font-weight: bold;
+}
+
+#start {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+/* #go-to-jail {
+    background-color: #F44336;
+    color: #fff;
+}
+#go-to-rest {
+    background-color: #49f436;
+    color: #fff;
+}
+#go-to-club {
+    background-color: #ec2651;
+    color: #fff;
+} */
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 2px;
+    flex-direction: column;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    height: 40px;
+}
+#roll-dice {
+    display: none;
+    background-color: #992017;
+}
+#roll-dice2 {
+    display: none;
+    background-color: #1f4772;
+}
+#buy-property {
+    display: none;
+}
+
+.controls button:hover {
+    background-color: #0056b3;
+}
+
+.log {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.log h2 {
+    text-align: center;
+}
+
+.log ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.log li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.property {
+    position: relative;
+}
+
+.player-marker1 {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    z-index: 1;
+    /* background-color:  #992017 */
+}
+
+
+.player-marker2 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    /* border-radius: 50%;
+    background-color:  #07386d; Player 1 color */
+}
+.player-marker1 i {
+    font-size: 40px;
+    color: #992017;
+}
+.player-marker2 i {
+    font-size: 40px;
+    color: #0056b3;
+    margin: -1rem;
+}
+/* navbar */
