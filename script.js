@@ -8,18 +8,27 @@ const properties = [
     'property30', 'property31', 'property32', 'property33', 'property34',
     'property35', 'property36', 'property37'
 ];
-
+const money = [
+'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+  '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', 
+  '20', '21', '22', '23', '24', '25' , '26','27','28','29','30','31','32',
+  '33','34'
+];
 let money1 = document.getElementById("money1");
 let money2 = document.getElementById("money2");
 let diceRolling1 = document.getElementById('roll-dice');
 let diceRolling2 = document.getElementById('roll-dice2');
 let buyProperty  = document.getElementById("buy-property");
 let start = document.getElementById("start");
+let buy1 = document.getElementById("buy-property");
+let buy2 = document.getElementById("buy-property2");
 
 let playerPositions = {
     player1: 0,
     player2: 0
 };
+let diceRoll;
+let diceRoll1;
 
 document.getElementById("start").addEventListener('click', () => {
     diceRolling1.style.display = "block";
@@ -29,20 +38,24 @@ document.getElementById("start").addEventListener('click', () => {
 });
 
 diceRolling1.addEventListener('click', () => {
-    const diceRoll = Math.floor(Math.random() * 6) + 1;
+    diceRoll = Math.floor(Math.random() * 6) + 1;
     movePlayer1('player1', diceRoll);
     logEvent(`Player 1 rolled a ${diceRoll}`);
     diceRolling1.style.display = "none";
     diceRolling2.style.display = "block";
+    buy1.style.display = "block";
+    buy2.style.display = "none";
     document.getElementById("player2").style.boxShadow = " 0 0 5px white";
     document.getElementById("player1").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
 });
 diceRolling2.addEventListener('click', () => {
-    const diceRoll = Math.floor(Math.random() * 6) + 1;
-    movePlayer2('player2', diceRoll);
-    logEvent(`Player 2 rolled a ${diceRoll}`);
+    diceRoll1 = Math.floor(Math.random() * 6) + 1;
+    movePlayer2('player2', diceRoll1);
+    logEvent(`Player 2 rolled a ${diceRoll1}`);
     diceRolling2.style.display = "none";
     diceRolling1.style.display = "block";
+    buy1.style.display = "none";
+    buy2.style.display = "block";
     document.getElementById("player1").style.boxShadow = " 0 0 5px white";
     document.getElementById("player2").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
 });
@@ -57,7 +70,6 @@ function movePlayer1(player, steps) {
 function updatePlayerPosition1(player, previousPosition) {
     const propertyId = properties[playerPositions[player]];
     document.getElementById(`${player}-position`).textContent = propertyId;
-
      // Remove existing marker
      document.querySelectorAll('.player-marker1').forEach(marker => marker.remove());
 
@@ -150,4 +162,70 @@ function logEvent(message) {
     log.appendChild(logItem);
 }
 
-//navbar
+//buy property
+buy1.addEventListener("click", () => {
+    handleBuy1('player1');
+});
+
+buy2.addEventListener("click", () => {
+    handleBuy2('player2');
+});
+function handleBuy1(player) {
+    let positions = playerPositions[player];
+    let propertyIndex = properties.indexOf(properties[positions]);
+    let propertyId = parseInt(money[propertyIndex]);
+    let propertyMoney = document.querySelector(`.Money${propertyId}`).innerText;
+    let playerMoney = money1.innerText;
+    console.log(propertyId);
+    console.log(propertyIndex);
+    console.log(propertyMoney)
+    console.log(playerMoney);
+    if(isNumeric(propertyMoney)) {
+        if(propertyId == propertyIndex) {
+            if (playerMoney >= propertyMoney) {
+                let updatedMoney = playerMoney - propertyMoney;
+                money1.innerText = updatedMoney;
+                document.querySelector(`.Money${propertyId}`).innerText = "Red's";
+                logEvent(`${player} bought ${properties[positions]} for ${propertyMoney}`);
+            } else {
+                console.log("Not enough money to buy the property");
+            }
+        } else {
+            console.log("invalid property");
+        }
+    } else {
+        alert("Already Sold");
+    }
+}
+function handleBuy2(player) {
+    let positions = playerPositions[player];
+    let propertyIndex = properties.indexOf(properties[positions]);
+    let propertyId = parseInt(money[propertyIndex]);
+    let propertyMoney = document.querySelector(`.Money${propertyId}`).innerText;
+    let playerMoney = money2.innerText;
+    console.log(propertyId);
+    console.log(propertyIndex);
+    console.log(propertyMoney)
+    console.log(playerMoney);
+
+    if(isNumeric(propertyMoney)) {
+        if(propertyId == propertyIndex) {
+            if (playerMoney >= propertyMoney) {
+                let updatedMoney = playerMoney - propertyMoney;
+                money2.innerText = updatedMoney;
+                document.querySelector(`.Money${propertyId}`).innerText = "Blue's";
+                logEvent(`${player} bought ${properties[positions]} for ${propertyMoney}`);
+            } else {
+                console.log("Not enough money to buy the property");
+            }
+        } else {
+            console.log("invalid property");
+        }
+    } else {
+        alert("Already Sold");
+}
+}
+
+function isNumeric(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+}

@@ -160,7 +160,9 @@ main {
 #buy-property {
     display: none;
 }
-
+#buy-property2 {
+    display: none;
+}
 .controls button:hover {
     background-color: #0056b3;
 }
@@ -216,4 +218,7 @@ main {
     color: #0056b3;
     margin: -1rem;
 }
-/* navbar */
+
+.no {
+    display: none;
+}
