@@ -10,6 +10,7 @@ header {
     color: #fff;
     padding: 10px 0;
     text-align: center;
+    align-items: center;
 }
 
 header .player-info {
@@ -17,7 +18,7 @@ header .player-info {
     justify-content: center;
     gap: 40px;
     margin-top: 2px;
-    height: 90px;
+    height: 120px;
 }
 
 header .player {
@@ -149,6 +150,20 @@ main {
     transition: background-color 0.3s;
     height: 40px;
 }
+.buy {
+    cursor: pointer;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    height: 40px;
+    margin-left: 2rem;
+}
+.no-property {
+    background-color: #444;
+    display: block;
+}
 #roll-dice {
     display: none;
     background-color: #992017;
@@ -222,3 +237,9 @@ main {
 .no {
     display: none;
 }
+/* #buy-property {
+    background-color: #992017;
+}
+#buy-property2 {
+    background-color: #0056b3;
+} */

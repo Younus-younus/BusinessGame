@@ -22,17 +22,17 @@ let buyProperty  = document.getElementById("buy-property");
 let start = document.getElementById("start");
 let buy1 = document.getElementById("buy-property");
 let buy2 = document.getElementById("buy-property2");
+let noBuy1 = document.getElementById("no-property1");
+let noBuy2 = document.getElementById("no-property2");
 
 let playerPositions = {
     player1: 0,
     player2: 0
 };
 let diceRoll;
-let diceRoll1;
 
 document.getElementById("start").addEventListener('click', () => {
     diceRolling1.style.display = "block";
-    buyProperty.style.display = "block";
     start.style.display = "none"
     document.getElementById("player1").style.boxShadow = " 0 0 5px white";
 });
@@ -45,17 +45,21 @@ diceRolling1.addEventListener('click', () => {
     diceRolling2.style.display = "block";
     buy1.style.display = "block";
     buy2.style.display = "none";
+    noBuy2.style.display = "block";
+    noBuy1.style.display = "none";
     document.getElementById("player2").style.boxShadow = " 0 0 5px white";
     document.getElementById("player1").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
 });
 diceRolling2.addEventListener('click', () => {
-    diceRoll1 = Math.floor(Math.random() * 6) + 1;
-    movePlayer2('player2', diceRoll1);
-    logEvent(`Player 2 rolled a ${diceRoll1}`);
+    diceRoll = Math.floor(Math.random() * 6) + 1;
+    movePlayer2('player2', diceRoll);
+    logEvent(`Player 2 rolled a ${diceRoll}`);
     diceRolling2.style.display = "none";
     diceRolling1.style.display = "block";
     buy1.style.display = "none";
     buy2.style.display = "block";
+    noBuy2.style.display = "none";
+    noBuy1.style.display = "block";
     document.getElementById("player1").style.boxShadow = " 0 0 5px white";
     document.getElementById("player2").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
 });
@@ -69,7 +73,6 @@ function movePlayer1(player, steps) {
 
 function updatePlayerPosition1(player, previousPosition) {
     const propertyId = properties[playerPositions[player]];
-    document.getElementById(`${player}-position`).textContent = propertyId;
      // Remove existing marker
      document.querySelectorAll('.player-marker1').forEach(marker => marker.remove());
 
@@ -91,7 +94,6 @@ function movePlayer2(player, steps) {
 
 function updatePlayerPosition2(player, previousPosition) {
     const propertyId = properties[playerPositions[player]];
-    document.getElementById(`${player}-position`).textContent = propertyId;
 
     // Remove existing marker
     document.querySelectorAll('.player-marker2').forEach(marker => marker.remove());
@@ -125,10 +127,15 @@ function check(property, player, previousPosition) {
         updatedMoney2 += 100;
     } else if (property === properties[28]) {
         updatedMoney1 -= 500;
+    } else if(property === properties[6]) {
+        checkChest('money1');
+    } else if(property === properties[19]) {
+        checkChestOdd('money1');
     }
     money1.innerText = updatedMoney1;
     money2.innerText = updatedMoney2; // Update the displayed money
 }
+
 
 // Checking property position of second player
 function check2(property, player, previousPosition) {
@@ -150,10 +157,58 @@ function check2(property, player, previousPosition) {
         updatedMoney1 += 100;
     } else if (property === properties[28]) {
         updatedMoney2 -= 500;
+    } else if(property === properties[6]) {
+        checkChest('money2');
+    } else if(property === properties[19]) {
+        checkChestOdd('money2')
     }
     money1.innerText = updatedMoney1;
     money2.innerText = updatedMoney2; // Update the displayed money
 }
+
+//community chest checking rules
+function checkChest(money) {
+    let player_money = document.getElementById(money).innerText;
+    let update_money;
+    console.log(player_money);
+    if(diceRoll % 2 == 0 ) {
+        if(diceRoll == 2) {
+             update_money = player_money + 1000;
+             player_money = update_money.innerText;
+        } else if(diceRoll == 4) {
+            update_money = player_money + 500;     
+            player_money = update_money.innerText;       
+        }
+        else if(diceRoll == 6) {
+            update_money = player_money + 3000;
+            player_money = update_money.innerText;
+        }
+    }
+    else {
+        console.log("You should get even number for benefit");
+    }
+}
+function checkChestOdd(money) {
+    let player_money = document.getElementById(money).innerText;
+    let update_money;
+    if(diceRoll % 2 == 0 ) {
+        console.log("You just escaped from loss");
+    }
+    else {
+        if(diceRoll == 1) {
+            update_money = player_money - 1500;
+            player_money = update_money.innerText;
+        } else if(diceRoll == 3) {
+            update_money = player_money - 3000;
+            player_money = update_money.innerText;
+        }
+        else if(diceRoll == 5) {
+            update_money = player_money - 1500;
+            player_money = update_money.innerText;
+        }
+    }
+}
+
 
 function logEvent(message) {
     const log = document.getElementById('log');

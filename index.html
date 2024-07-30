@@ -39,17 +39,19 @@
         <div class="player-info">
             <div class="player" id="player1">
                 <h5>Player 1</h5>
-                <p><b>Money: &#8377;</b><span id="money1">2500</span><br><b>Position:</b> <span id="player1-position">Start</span></p></p>
+                <p><b>Money: &#8377;</b><span id="money1">2500</span></p>
+                <button id="buy-property" class="buy">Buy Property</button>
+                <button class="no-property buy" id="no-property1">You can't Buy</button>
             </div>
             <div class="player" id="player2">
                 <h5>Player 2</h5>
-                <p><b>Money: &#8377;</b><span id="money2">2500</span><br><b>Position:</b> <span id="player2-position">Start</span></p>
+                <p><b>Money: &#8377;</b><span id="money2">2500</span></p>
+                <button id="buy-property2" class="buy">Buy Property 2</button>
+                <button class="no-property buy" id="no-property2">You can't Buy</button>
             </div>
             <div class="controls">
               <button id="roll-dice">Roll Dice</button>
               <button id="roll-dice2">Roll Dice 2</button>
-              <button id="buy-property">Buy Property</button>
-              <button id="buy-property2">Buy Property 2</button>
               <button id="start">Start</button>
             </div>
         </div>
@@ -112,7 +114,7 @@
               <div class="card property" style="width: 18rem;" id="property7">
                 <img src="assets/Community Chest.jpeg" class="card-img-top propertyimg" alt="Goa">
                 <div class="card-body">
-                  <p class="card-text">Chest</p>
+                  <p class="card-text" id="chest-even">Chest</p>
                   <span class="Money6 no">Invalid</span>
                 </div>
               </div>
@@ -179,7 +181,7 @@
               <div class="card property" style="width: 18rem;" id="property17">
                 <img src="assets/Chance.jpeg" class="card-img-top propertyimg" alt="Goa">
                 <div class="card-body">
-                  <p class="card-text">Chance</p>
+                  <p class="card-text" id="chance-odd">Chance</p>
                   <span class="Money15 no">Invalid</span>
                 </div>
               </div>
@@ -206,7 +208,7 @@
               <div class="card property" style="width: 18rem;" id="property21">
                 <img src="assets/Community Chest.jpeg" class="card-img-top propertyimg" alt="Goa">
                 <div class="card-body">
-                  <p class="card-text">Chest</p>
+                  <p class="card-text" id="chest-odd">Chest</p>
                   <span class="Money19 no">Invalid</span>
                 </div>
               </div>
@@ -274,7 +276,7 @@
               <div class="card property" style="width: 18rem;" id="property31">
                 <img src="assets/Chance.jpeg" class="card-img-top propertyimg" alt="Goa">
                 <div class="card-body">
-                  <p class="card-text">Chance</p>
+                  <p class="card-text" id="chance-even">Chance</p>
                   <span class="Money28 no">Invalid</span>
                 </div>
               </div>
