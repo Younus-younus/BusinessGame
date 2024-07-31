@@ -115,7 +115,14 @@ main {
 
 #start {
     background-color: #4CAF50;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
     color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    height: 40px;
 }
 
 /* #go-to-jail {
@@ -140,16 +147,11 @@ main {
 }
 
 .controls button {
-    padding: 10px 20px;
-    font-size: 1em;
     cursor: pointer;
-    background-color: #007BFF;
     color: #fff;
-    border: none;
     border-radius: 5px;
-    transition: background-color 0.3s;
-    height: 40px;
 }
+
 .buy {
     cursor: pointer;
     background-color: #007BFF;
@@ -166,20 +168,30 @@ main {
 }
 #roll-dice {
     display: none;
-    background-color: #992017;
+    border: 2px solid #992017;
+    padding-bottom: 30px;
+    align-items: center;
+    font-size: 30px;
+    background-color: #444;
+    height: 50px;
+    width: 50px;
 }
 #roll-dice2 {
     display: none;
-    background-color: #1f4772;
+    border:2px solid #1f4772;
+    padding-bottom: 30px;
+    align-items: center;
+    font-size: 30px;
+    height: 50px;
+    background-color: #444;
+    width: 50px;
 }
+
 #buy-property {
     display: none;
 }
 #buy-property2 {
     display: none;
-}
-.controls button:hover {
-    background-color: #0056b3;
 }
 
 .log {

@@ -33,35 +33,70 @@ let diceRoll;
 
 document.getElementById("start").addEventListener('click', () => {
     diceRolling1.style.display = "block";
+    diceRolling2.style.display = "block";
+    diceRolling1.style.boxShadow = " 0 0 5px white";
+    diceRolling2.disabled = true;
     start.style.display = "none"
     document.getElementById("player1").style.boxShadow = " 0 0 5px white";
 });
 
 diceRolling1.addEventListener('click', () => {
     diceRoll = Math.floor(Math.random() * 6) + 1;
-    movePlayer1('player1', diceRoll);
-    logEvent(`Player 1 rolled a ${diceRoll}`);
-    diceRolling1.style.display = "none";
-    diceRolling2.style.display = "block";
+    diceRolling2.disabled = false;
+    diceRolling1.disabled = true;
+    let diceface = getDiceFace(diceRoll);
+    diceRolling1.innerHTML = diceface;
+    diceRolling2.innerHTML = "🎲";
+    diceRolling1.style.boxShadow = " 0 0 5px black";
+    diceRolling2.style.boxShadow = " 0 0 5px white";
+
     buy1.style.display = "block";
     buy2.style.display = "none";
     noBuy2.style.display = "block";
     noBuy1.style.display = "none";
+
     document.getElementById("player2").style.boxShadow = " 0 0 5px white";
     document.getElementById("player1").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
+
+    movePlayer1('player1', diceRoll);
+    logEvent(`Player 1 rolled a ${diceRoll}`);
+
+        //check number if six
+        if(diceRoll == 6) {
+            diceRolling1.disabled = false;
+            diceRolling2.disabled = true;
+            diceRolling1.style.boxShadow = " 0 0 5px white";
+            diceRolling2.style.boxShadow = " 0 0 5px black";
+        }
 });
 diceRolling2.addEventListener('click', () => {
     diceRoll = Math.floor(Math.random() * 6) + 1;
-    movePlayer2('player2', diceRoll);
-    logEvent(`Player 2 rolled a ${diceRoll}`);
-    diceRolling2.style.display = "none";
-    diceRolling1.style.display = "block";
+    diceRolling1.disabled = false;
+    diceRolling2.disabled = true;
+    let diceface = getDiceFace(diceRoll);
+    diceRolling1.style.boxShadow = " 0 0 5px white";
+    diceRolling2.style.boxShadow = " 0 0 5px black";
+    diceRolling2.innerHTML = diceface;
+    diceRolling1.innerHTML = "🎲";
+
     buy1.style.display = "none";
     buy2.style.display = "block";
     noBuy2.style.display = "none";
     noBuy1.style.display = "block";
+
     document.getElementById("player1").style.boxShadow = " 0 0 5px white";
     document.getElementById("player2").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
+
+    movePlayer2('player2', diceRoll);
+    logEvent(`Player 2 rolled a ${diceRoll}`);
+
+    //check number if six
+    if(diceRoll == 6) {
+        diceRolling2.disabled = false;
+        diceRolling1.disabled = true;
+        diceRolling1.style.boxShadow = " 0 0 5px black";
+        diceRolling2.style.boxShadow = " 0 0 5px white";
+    }
 });
 
 function movePlayer1(player, steps) {
@@ -283,4 +318,17 @@ function handleBuy2(player) {
 
 function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
+//dice script
+function getDiceFace(number) {
+    var faces = [
+        '<i class="fa-solid fa-dice-one"></i>', // Unicode for dice face 1
+        '<i class="fa-solid fa-dice-two"></i>', // Unicode for dice face 2
+        '<i class="fa-solid fa-dice-three"></i>', // Unicode for dice face 3
+        '<i class="fa-solid fa-dice-four"></i>', // Unicode for dice face 4
+        '<i class="fa-solid fa-dice-five"></i>', // Unicode for dice face 5
+        '<i class="fa-solid fa-dice-six"></i>'  // Unicode for dice face 6
+    ];
+    return faces[number - 1];
 }
