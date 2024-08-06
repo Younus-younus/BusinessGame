@@ -180,7 +180,7 @@ function updatePlayerPosition2(player, previousPosition) {
 }
 
 // Checking property position
-function check(propertyId, player, previousPosition) {
+function check(property, player, previousPosition) {
     let currentMoney1 = parseInt(money1.innerText); // Convert innerText to number
     let updatedMoney1 = currentMoney1;
     let currentMoney2 = parseInt(money2.innerText); // Convert innerText to number of peron 2 money
@@ -191,39 +191,33 @@ function check(propertyId, player, previousPosition) {
         updatedMoney1 += 1500;
     }
 
-    switch (propertyId) {
-        case properties[8]:
-            updatedMoney1 += 100;
-            updatedMoney2 -= 100;
-            break;
-        case properties[17]:
-            updatedMoney1 -= 100;
-            updatedMoney2 += 100;
-            break;
-        case properties[26]:
-            updatedMoney1 -= 500;
-            break;
-        case properties[6]:
-            checkChest('money1');
-            break;
-        case properties[19]:
-            checkChestOdd('money1');
-            break;
-        case properties[15]:
-            checkChanceOdd('money1');
-            break;
-        case properties[28]:
-            checkChance('money1');
-            break;
+    if (property === properties[8]) {
+        updatedMoney1 += 100;
+        updatedMoney2 -= 100;
+    } else if (property === properties[17]) {
+        updatedMoney1 -= 100;
+        updatedMoney2 += 100;
+    } else if (property === properties[26]) {
+        updatedMoney1 -= 500;
+    } 
+    money1.innerText = updatedMoney1;
+    money2.innerText = updatedMoney2; // Update the displayed money
+  if(property === properties[6]) {
+        checkChest('money1');
+    } else if(property === properties[19]) {
+        checkChestOdd('money1');
+    } else if(property === properties[15]) {
+        checkChanceOdd('money1');
+    } else if(property === properties[28]) {
+        checkChance('money1');
     }
-
-    elements.money1.innerText = updatedMoney1;
-    elements.money2.innerText = updatedMoney2;
 }
 
 
+
 // Checking property position of second player
-function check2(propertyId, player, previousPosition) {
+// Checking property position of second player
+function check2(property, player, previousPosition) {
     let currentMoney2 = parseInt(money2.innerText); // Convert innerText to number
     let updatedMoney2 = currentMoney2;
     let currentMoney1 = parseInt(money1.innerText); // Convert innerText to number
@@ -234,36 +228,29 @@ function check2(propertyId, player, previousPosition) {
         updatedMoney2 += 1500;
     }
 
-    switch (propertyId) {
-        case properties[8]:
-            updatedMoney2 += 100;
-            updatedMoney1 -= 100;
-            break;
-        case properties[17]:
-            updatedMoney2 -= 100;
-            updatedMoney1 += 100;
-            break;
-        case properties[26]:
-            updatedMoney2 -= 500;
-            break;
-        case properties[6]:
-            checkChest('money2');
-            break;
-        case properties[19]:
-            checkChestOdd('money2');
-            break;
-        case properties[15]:
-            checkChanceOdd('money2');
-            break;
-        case properties[28]:
-            checkChance('money2');
-            break;
+    if (property === properties[8]) {
+        updatedMoney2 += 100;
+        updatedMoney1 -= 100;
+    } else if (property === properties[17]) {
+        updatedMoney2 -= 100;
+        updatedMoney1 += 100;
+    } else  if (property === properties[26]) {
+        updatedMoney2 -= 500; 
     }
+    money1.innerText = updatedMoney1;  // Update the displayed money
+    money2.innerText = updatedMoney2;
 
-    elements.money1.innerText = updatedMoney1;
-    elements.money2.innerText = updatedMoney2;
-
+if(property === properties[6]) {
+        checkChest('money2');
+    } else if(property === properties[19]) {
+        checkChestOdd('money2')
+    } else if(property === properties[15]) {
+        checkChanceOdd('money2');
+    } else if(property === properties[28]) {
+        checkChance('money2');
+    }
 }
+
 
 function checkChest(money) {
     let player_money = parseInt(document.getElementById(money).innerText);
