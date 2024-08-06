@@ -14,6 +14,8 @@ const money = [
   '20', '21', '22', '23', '24', '25' , '26','27','28','29','30','31','32',
   '33','34'
 ];
+
+
 let money1 = document.getElementById("money1");
 let money2 = document.getElementById("money2");
 let diceRolling1 = document.getElementById('roll-dice');
@@ -24,20 +26,53 @@ let buy1 = document.getElementById("buy-property");
 let buy2 = document.getElementById("buy-property2");
 let noBuy1 = document.getElementById("no-property1");
 let noBuy2 = document.getElementById("no-property2");
+let blueProperty = [];
+let redProperty = [];
+let diceRoll;
+let log = document.querySelector(".log");
+
+const propertyRent = {
+    Goa: { rent: 400},
+    Boat: { rent: 0},
+    Cochin: { rent: 300},
+    Mysore: { rent: 200},
+    Bengaluru: { rent: 400},
+    Chennai: { rent: 600},
+    Hyderabad: { rent: 200},
+    Kolkata: { rent: 300},
+    Airindia: { rent: 1200},
+    Darjeeliing: { rent: 200},
+    Patna: { rent: 150},
+    Kanpur: { rent: 300},
+    Agra: { rent: 500},
+    Shrinagar: { rent: 250},
+    Amritsar: { rent: 200},
+    Shimla: { rent: 250},
+    Best: { rent: 650},
+    Electronics: { rent: 0},
+    Chandigadh: { rent: 300},
+    NewDelhi: { rent: 750},
+    Jaipur: { rent: 350},
+    Indore: { rent: 200},
+    Ahmedabad: { rent: 400},
+    Railway: { rent: 1400},
+    WaterWorks: { rent: 600},
+    Mumbai: { rent: 850},
+};
 
 let playerPositions = {
     player1: 0,
     player2: 0
 };
-let diceRoll;
 
 document.getElementById("start").addEventListener('click', () => {
     diceRolling1.style.display = "block";
     diceRolling2.style.display = "block";
     diceRolling1.style.boxShadow = " 0 0 5px white";
     diceRolling2.disabled = true;
-    start.style.display = "none"
+    start.style.display = "none";
     document.getElementById("player1").style.boxShadow = " 0 0 5px white";
+    log.style.display = "block";
 });
 
 diceRolling1.addEventListener('click', () => {
@@ -49,7 +84,8 @@ diceRolling1.addEventListener('click', () => {
     diceRolling2.innerHTML = "🎲";
     diceRolling1.style.boxShadow = " 0 0 5px black";
     diceRolling2.style.boxShadow = " 0 0 5px white";
-
+    
+    buy1.innerText = "Buy Property";
     buy1.style.display = "block";
     buy2.style.display = "none";
     noBuy2.style.display = "block";
@@ -59,7 +95,6 @@ diceRolling1.addEventListener('click', () => {
     document.getElementById("player1").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
 
     movePlayer1('player1', diceRoll);
-    logEvent(`Player 1 rolled a ${diceRoll}`);
 
         //check number if six
         if(diceRoll == 6) {
@@ -79,6 +114,7 @@ diceRolling2.addEventListener('click', () => {
     diceRolling2.innerHTML = diceface;
     diceRolling1.innerHTML = "🎲";
 
+    buy2.innerText = "Buy Property";
     buy1.style.display = "none";
     buy2.style.display = "block";
     noBuy2.style.display = "none";
@@ -88,7 +124,6 @@ diceRolling2.addEventListener('click', () => {
     document.getElementById("player2").style.boxShadow = " 0 0 5px rgba(0,0,0,0.3)";
 
     movePlayer2('player2', diceRoll);
-    logEvent(`Player 2 rolled a ${diceRoll}`);
 
     //check number if six
     if(diceRoll == 6) {
@@ -104,6 +139,7 @@ function movePlayer1(player, steps) {
     let newPosition = (previousPosition + steps) % properties.length;
     playerPositions[player] = newPosition;
     updatePlayerPosition1(player, previousPosition);
+    checkRent(newPosition,player);
 }
 
 function updatePlayerPosition1(player, previousPosition) {
@@ -125,6 +161,7 @@ function movePlayer2(player, steps) {
     let newPosition = (previousPosition + steps) % properties.length;
     playerPositions[player] = newPosition;
     updatePlayerPosition2(player, previousPosition);
+    checkRent(newPosition,player);
 }
 
 function updatePlayerPosition2(player, previousPosition) {
@@ -143,7 +180,7 @@ function updatePlayerPosition2(player, previousPosition) {
 }
 
 // Checking property position
-function check(property, player, previousPosition) {
+function check(propertyId, player, previousPosition) {
     let currentMoney1 = parseInt(money1.innerText); // Convert innerText to number
     let updatedMoney1 = currentMoney1;
     let currentMoney2 = parseInt(money2.innerText); // Convert innerText to number of peron 2 money
@@ -154,26 +191,39 @@ function check(property, player, previousPosition) {
         updatedMoney1 += 1500;
     }
 
-    if (property === properties[8]) {
-        updatedMoney1 += 100;
-        updatedMoney2 -= 100;
-    } else if (property === properties[18]) {
-        updatedMoney1 -= 100;
-        updatedMoney2 += 100;
-    } else if (property === properties[28]) {
-        updatedMoney1 -= 500;
-    } else if(property === properties[6]) {
-        checkChest('money1');
-    } else if(property === properties[19]) {
-        checkChestOdd('money1');
+    switch (propertyId) {
+        case properties[8]:
+            updatedMoney1 += 100;
+            updatedMoney2 -= 100;
+            break;
+        case properties[17]:
+            updatedMoney1 -= 100;
+            updatedMoney2 += 100;
+            break;
+        case properties[26]:
+            updatedMoney1 -= 500;
+            break;
+        case properties[6]:
+            checkChest('money1');
+            break;
+        case properties[19]:
+            checkChestOdd('money1');
+            break;
+        case properties[15]:
+            checkChanceOdd('money1');
+            break;
+        case properties[28]:
+            checkChance('money1');
+            break;
     }
-    money1.innerText = updatedMoney1;
-    money2.innerText = updatedMoney2; // Update the displayed money
+
+    elements.money1.innerText = updatedMoney1;
+    elements.money2.innerText = updatedMoney2;
 }
 
 
 // Checking property position of second player
-function check2(property, player, previousPosition) {
+function check2(propertyId, player, previousPosition) {
     let currentMoney2 = parseInt(money2.innerText); // Convert innerText to number
     let updatedMoney2 = currentMoney2;
     let currentMoney1 = parseInt(money1.innerText); // Convert innerText to number
@@ -184,72 +234,111 @@ function check2(property, player, previousPosition) {
         updatedMoney2 += 1500;
     }
 
-    if (property === properties[8]) {
-        updatedMoney2 += 100;
-        updatedMoney1 -= 100;
-    } else if (property === properties[18]) {
-        updatedMoney2 -= 100;
-        updatedMoney1 += 100;
-    } else if (property === properties[28]) {
-        updatedMoney2 -= 500;
-    } else if(property === properties[6]) {
-        checkChest('money2');
-    } else if(property === properties[19]) {
-        checkChestOdd('money2')
+    switch (propertyId) {
+        case properties[8]:
+            updatedMoney2 += 100;
+            updatedMoney1 -= 100;
+            break;
+        case properties[17]:
+            updatedMoney2 -= 100;
+            updatedMoney1 += 100;
+            break;
+        case properties[26]:
+            updatedMoney2 -= 500;
+            break;
+        case properties[6]:
+            checkChest('money2');
+            break;
+        case properties[19]:
+            checkChestOdd('money2');
+            break;
+        case properties[15]:
+            checkChanceOdd('money2');
+            break;
+        case properties[28]:
+            checkChance('money2');
+            break;
     }
-    money1.innerText = updatedMoney1;
-    money2.innerText = updatedMoney2; // Update the displayed money
+
+    elements.money1.innerText = updatedMoney1;
+    elements.money2.innerText = updatedMoney2;
+
 }
 
-//community chest checking rules
 function checkChest(money) {
-    let player_money = document.getElementById(money).innerText;
-    let update_money;
+    let player_money = parseInt(document.getElementById(money).innerText);
+    let update_money = player_money;
+    console.log(diceRoll)
+    if (diceRoll % 2 === 0) {
+        if (diceRoll === 2) {
+            update_money += 1000;
+        } else if (diceRoll === 4) {
+            update_money += 500;
+        } else if (diceRoll === 6) {
+            update_money += 3000;
+        }
+    } else {
+        console.log("You should get even number for benefit");
+    }
+    document.getElementById(money).innerText = update_money.toString();
+    console.log(update_money);
+}
+function checkChestOdd(money) {
+    let player_money = parseInt(document.getElementById(money).innerText);
+    let update_money = player_money;
+    if (diceRoll % 2 === 0) {
+        console.log("You just escaped from loss");
+    } else {
+        if (diceRoll === 1) {
+            update_money -= 1500;
+        } else if (diceRoll === 3) {
+            update_money -= 3000;
+        } else if (diceRoll === 5) {
+            update_money -= 1500;
+        }
+    }
+    document.getElementById(money).innerText = update_money.toString();
+}
+//... similar for checkChance and checkChanceOdd
+
+//Chance checking rules
+function checkChanceOdd(money) {
+    let player_money = parseInt(document.getElementById(money).innerText);
+    let update_money = player_money;
     console.log(player_money);
     if(diceRoll % 2 == 0 ) {
         if(diceRoll == 2) {
-             update_money = player_money + 1000;
-             player_money = update_money.innerText;
+             update_money += 1500;
         } else if(diceRoll == 4) {
-            update_money = player_money + 500;     
-            player_money = update_money.innerText;       
+            update_money += 1500;
         }
         else if(diceRoll == 6) {
-            update_money = player_money + 3000;
-            player_money = update_money.innerText;
+            update_money += 2000;
         }
     }
     else {
         console.log("You should get even number for benefit");
     }
+    document.getElementById(money).innerText = update_money;
 }
-function checkChestOdd(money) {
-    let player_money = document.getElementById(money).innerText;
-    let update_money;
+
+function checkChance(money) {
+    let player_money = parseInt(document.getElementById(money).innerText);
+    let update_money = player_money;
     if(diceRoll % 2 == 0 ) {
         console.log("You just escaped from loss");
     }
     else {
         if(diceRoll == 1) {
-            update_money = player_money - 1500;
-            player_money = update_money.innerText;
+            update_money -= 1000;
         } else if(diceRoll == 3) {
-            update_money = player_money - 3000;
-            player_money = update_money.innerText;
+            update_money -= 3000;
         }
         else if(diceRoll == 5) {
-            update_money = player_money - 1500;
-            player_money = update_money.innerText;
+            update_money -= 2000;
         }
     }
-}
-
-
-function logEvent(message) {
-    const log = document.getElementById('log');
-    const logItem = document.createElement('li');
-    logItem.textContent = message;
-    log.appendChild(logItem);
+    document.getElementById(money).innerText = update_money;
 }
 
 //buy property
@@ -265,6 +354,8 @@ function handleBuy1(player) {
     let propertyIndex = properties.indexOf(properties[positions]);
     let propertyId = parseInt(money[propertyIndex]);
     let propertyMoney = document.querySelector(`.Money${propertyId}`).innerText;
+    const propertyElement = document.getElementById(properties[propertyId]);
+    const House = propertyElement.querySelector('.card-text').innerText;
     let playerMoney = money1.innerText;
     console.log(propertyId);
     console.log(propertyIndex);
@@ -275,16 +366,17 @@ function handleBuy1(player) {
             if (playerMoney >= propertyMoney) {
                 let updatedMoney = playerMoney - propertyMoney;
                 money1.innerText = updatedMoney;
+                redProperty.push(propertyId);
                 document.querySelector(`.Money${propertyId}`).innerText = "Red's";
-                logEvent(`${player} bought ${properties[positions]} for ${propertyMoney}`);
+                logEvent(`${player} bought ${House} for ${propertyMoney}`);
             } else {
-                console.log("Not enough money to buy the property");
+                alert("Not Enough Money");
             }
         } else {
             console.log("invalid property");
         }
     } else {
-        alert("Already Sold");
+        alert("You Can't Buy the Property");
     }
 }
 function handleBuy2(player) {
@@ -292,6 +384,8 @@ function handleBuy2(player) {
     let propertyIndex = properties.indexOf(properties[positions]);
     let propertyId = parseInt(money[propertyIndex]);
     let propertyMoney = document.querySelector(`.Money${propertyId}`).innerText;
+    const propertyElement = document.getElementById(properties[propertyId]);
+    const House = propertyElement.querySelector('.card-text').innerText;
     let playerMoney = money2.innerText;
     console.log(propertyId);
     console.log(propertyIndex);
@@ -303,18 +397,88 @@ function handleBuy2(player) {
             if (playerMoney >= propertyMoney) {
                 let updatedMoney = playerMoney - propertyMoney;
                 money2.innerText = updatedMoney;
+                blueProperty.push(propertyId);
                 document.querySelector(`.Money${propertyId}`).innerText = "Blue's";
-                logEvent(`${player} bought ${properties[positions]} for ${propertyMoney}`);
+                logEvent(`${player} bought ${House} for ${propertyMoney}`);
             } else {
-                console.log("Not enough money to buy the property");
+                alert("Not Enough Money");
             }
         } else {
             console.log("invalid property");
         }
     } else {
-        alert("Already Sold");
+        alert("You Can't Buy the Property");
 }
 }
+
+//check if the player has to pay rent and wealth tax
+function checkRent(propertyId, player) {
+    // Calculate rent for special properties based on dice roll
+    propertyRent.Boat.rent = diceRoll * 200;
+    propertyRent.Electronics.rent = diceRoll * 100;
+
+    // Initialize Income and Wealth Tax
+    let IncomeTax1 = 0;
+    let WealthTax1 = 0;
+    let IncomeTax2 = 0;
+    let WealthTax2 = 0;
+    for (let i of redProperty) {
+        WealthTax1 += 150;
+        IncomeTax1 += 150;
+    }
+    for (let i of blueProperty) {
+        WealthTax2 += 150;
+        IncomeTax2 += 150;
+    }
+
+    // Get property money ownership info
+    let propertyMoney = document.querySelector(`.Money${propertyId}`).innerText;
+    const propertyElement = document.getElementById(properties[propertyId]);
+    const TaxHouse1 = document.querySelector('.card-text1').innerText;
+    const TaxHouse2 = document.querySelector('.card-text2').innerText;
+    let update_money2 = parseInt(money2.innerText);
+    let update_money1 = parseInt(money1.innerText);
+
+    if (propertyMoney === "Red's" && player === 'player2') {
+        const rentHouse = propertyElement.querySelector('.card-text').innerText;
+        const houseRent = propertyRent[rentHouse].rent;
+        update_money2 -= houseRent;
+        update_money1 += houseRent;
+        money2.innerText = update_money2;
+        money1.innerText = update_money1;
+    }
+    if (propertyMoney === "Blue's" && player === 'player1') {
+        const rentHouse = propertyElement.querySelector('.card-text').innerText;
+        const houseRent = propertyRent[rentHouse].rent;
+        update_money1 -= houseRent;
+        update_money2 += houseRent;
+        money1.innerText = update_money1;
+        money2.innerText = update_money2;
+    }
+    if (propertyMoney === "Red's" && player === 'player1') {
+        buy1.disabled = false;
+        buy1.innerText = "Buying A house?";
+    }
+    if (propertyMoney === "Blue's" && player === 'player2') {
+        buy2.disabled = false;
+        buy2.innerText = "Buying A house?";
+    }
+    if(TaxHouse1 === "WealthTax" && player === 'player2') {
+        update_money2 -= WealthTax2;
+        money2.innerText = update_money2;
+    } else if(TaxHouse2 === "IncomeTax" && player === 'player2') {
+        update_money2 -= IncomeTax2;
+        money2.innerText = update_money2;
+    }
+    if(TaxHouse1 === "WealthTax" && player === 'player1') {
+        update_money1 -= WealthTax1;
+        money1.innerText = update_money1;
+    } else if(TaxHouse2 === "IncomeTax" && player === 'player1') {
+        update_money1 -= IncomeTax1;
+        money1.innerText = update_money1;
+    }
+}
+
 
 function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
@@ -331,4 +495,12 @@ function getDiceFace(number) {
         '<i class="fa-solid fa-dice-six"></i>'  // Unicode for dice face 6
     ];
     return faces[number - 1];
+}
+
+//To Show Messages
+function logEvent(message) {
+    const log = document.getElementById('log');
+    const logItem = document.createElement('span');
+    logItem.textContent = message;
+    log.appendChild(logItem);
 }
