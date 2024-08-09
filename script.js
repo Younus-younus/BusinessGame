@@ -186,23 +186,41 @@ function check(property, player, previousPosition) {
     let currentMoney2 = parseInt(money2.innerText); // Convert innerText to number of peron 2 money
     let updatedMoney2 = currentMoney2;
 
-    // If player has completed a round
-    if (playerPositions[player] < previousPosition) {
-        updatedMoney1 += 1500;
-    }
+    if(money1.innerText < 0 && playerPositions[player] < previousPosition) {
+        let loss= document.getElementById('player-info');
+        loss.style.display = "none";
+        let winner = document.createElement("h2");
+        winner.innerText = "Player 2 won the Game"
+        document.querySelector("h1").appendChild(winner);
+        let looser = document.createElement("div");
+        looser.innerText = "Player 1 Lost the game, as he is running losses and not able to recover";
+        looser.style.fontSize = "20px";
+        document.querySelector("h1").appendChild(looser);
+        const log1 = document.getElementById('messageBox');
+        log1.style.display = "none";
+        log.style.display = "none";
+    } else if(playerPositions[player] < previousPosition) {
+            updatedMoney1 += 1500;
+            logEvent("You have paid 1500rp as you completed a round");
+        }
 
     if (property === properties[8]) {
         updatedMoney1 += 100;
         updatedMoney2 -= 100;
+        logEvent("you have to Collect 100rp from your opponent");
     } else if (property === properties[17]) {
         updatedMoney1 -= 100;
         updatedMoney2 += 100;
+        logEvent("you have to pay 100rp to your opponent");
     } else if (property === properties[26]) {
         updatedMoney1 -= 500;
-    } 
+        logEvent("You are arrested! you have to pay fine of 500rp");
+    }
+
     money1.innerText = updatedMoney1;
     money2.innerText = updatedMoney2; // Update the displayed money
-  if(property === properties[6]) {
+
+    if(property === properties[6]) {
         checkChest('money1');
     } else if(property === properties[19]) {
         checkChestOdd('money1');
@@ -211,11 +229,15 @@ function check(property, player, previousPosition) {
     } else if(property === properties[28]) {
         checkChance('money1');
     }
+    if(redProperty.length != 0 && property === properties[4] || property === properties[30]) {
+        updatedMoney1 -= 500;
+        money1.innerText = updatedMoney1;
+        console.log(updatedMoney1);
+        logEvent("pay tax's for the bank");
+    }
 }
 
 
-
-// Checking property position of second player
 // Checking property position of second player
 function check2(property, player, previousPosition) {
     let currentMoney2 = parseInt(money2.innerText); // Convert innerText to number
@@ -223,24 +245,42 @@ function check2(property, player, previousPosition) {
     let currentMoney1 = parseInt(money1.innerText); // Convert innerText to number
     let updatedMoney1 = currentMoney1;
 
-    // If player has completed a round
-    if (playerPositions[player] < previousPosition) {
+    if(money2.innerText < 0 && playerPositions[player] < previousPosition) {
+        logEvent("You Lost the game, as you running losses and you are not able to pay this");
+        let loss= document.getElementById('player-info');
+            loss.style.display = "none";
+        let winner = document.createElement("h2");
+        winner.innerText = "Player 1 won the Game"
+        document.querySelector("h1").appendChild(winner);
+        let looser = document.createElement("div");
+        looser.innerText = "Player 2 Lost the game, as he is running losses and not able to recover";
+        looser.style.fontSize = "20px";
+        document.querySelector("h1").appendChild(looser);
+        const log1 = document.getElementById('messageBox');
+        log1.style.display = "none";
+        log.style.display = "none";
+    } else if(playerPositions[player] < previousPosition) {
         updatedMoney2 += 1500;
+        logEvent("You have paid 1500rp as you completed a round");
     }
 
     if (property === properties[8]) {
         updatedMoney2 += 100;
         updatedMoney1 -= 100;
+        logEvent("you have to Collect 100rp from your opponent");
     } else if (property === properties[17]) {
         updatedMoney2 -= 100;
         updatedMoney1 += 100;
+        logEvent("you have to pay 100rp to your opponent");
     } else  if (property === properties[26]) {
-        updatedMoney2 -= 500; 
+        updatedMoney2 -= 500;
+        logEvent("You are arrested! you have to pay fine of 500rp");
     }
+
     money1.innerText = updatedMoney1;  // Update the displayed money
     money2.innerText = updatedMoney2;
 
-if(property === properties[6]) {
+    if(property === properties[6]) {
         checkChest('money2');
     } else if(property === properties[19]) {
         checkChestOdd('money2')
@@ -249,9 +289,16 @@ if(property === properties[6]) {
     } else if(property === properties[28]) {
         checkChance('money2');
     }
+
+    if(blueProperty.length != 0 && property === properties[4] || property === properties[30]){
+        updatedMoney2 -= 500;
+        money2.innerText = updatedMoney2;
+        console.log(updatedMoney1);
+        logEvent("pay tax's for the bank");
+    }
 }
 
-
+//check odd and event
 function checkChest(money) {
     let player_money = parseInt(document.getElementById(money).innerText);
     let update_money = player_money;
@@ -259,13 +306,16 @@ function checkChest(money) {
     if (diceRoll % 2 === 0) {
         if (diceRoll === 2) {
             update_money += 1000;
+            logEvent("You have collected 1000rp from the lottery you won by buying a washing machine");
         } else if (diceRoll === 4) {
             update_money += 500;
+            logEvent("You have collected 500rp from a TV show");
         } else if (diceRoll === 6) {
             update_money += 3000;
+            logEvent("You have collected 3000rp as a gift from the bank");
         }
     } else {
-        console.log("You should get even number for benefit");
+        logEvent("You should get even number for benefit");
     }
     document.getElementById(money).innerText = update_money.toString();
     console.log(update_money);
@@ -274,14 +324,17 @@ function checkChestOdd(money) {
     let player_money = parseInt(document.getElementById(money).innerText);
     let update_money = player_money;
     if (diceRoll % 2 === 0) {
-        console.log("You just escaped from loss");
+        logEvent("You just escaped from loss");
     } else {
         if (diceRoll === 1) {
             update_money -= 1500;
+            logEvent("You have to pay 1500rp for all your recoveries");
         } else if (diceRoll === 3) {
             update_money -= 3000;
+            logEvent("You have to pay 3000rp for the bank to keep your Limit");
         } else if (diceRoll === 5) {
             update_money -= 1500;
+            logEvent("You have to recover you losses by paying 1500rp");
         }
     }
     document.getElementById(money).innerText = update_money.toString();
@@ -293,18 +346,19 @@ function checkChanceOdd(money) {
     let player_money = parseInt(document.getElementById(money).innerText);
     let update_money = player_money;
     console.log(player_money);
-    if(diceRoll % 2 == 0 ) {
-        if(diceRoll == 2) {
-             update_money += 1500;
-        } else if(diceRoll == 4) {
-            update_money += 1500;
-        }
-        else if(diceRoll == 6) {
+    if (diceRoll % 2 === 0) {
+        if (diceRoll === 2) {
+            update_money += 500;
+            logEvent("You have collected 500rp from the lottery you won by buying a washing machine");
+        } else if (diceRoll === 4) {
             update_money += 2000;
+            logEvent("You have collected 2000rp from a TV show");
+        } else if (diceRoll === 6) {
+            update_money += 1000;
+            logEvent("You have collected 1000rp as a gift from the bank");
         }
-    }
-    else {
-        console.log("You should get even number for benefit");
+    } else {
+        logEvent("You should get even number for benefit");
     }
     document.getElementById(money).innerText = update_money;
 }
@@ -312,21 +366,23 @@ function checkChanceOdd(money) {
 function checkChance(money) {
     let player_money = parseInt(document.getElementById(money).innerText);
     let update_money = player_money;
-    if(diceRoll % 2 == 0 ) {
-        console.log("You just escaped from loss");
-    }
-    else {
-        if(diceRoll == 1) {
-            update_money -= 1000;
-        } else if(diceRoll == 3) {
+    if (diceRoll % 2 === 0) {
+        logEvent("You just escaped from loss");
+    } else {
+        if (diceRoll === 1) {
+            update_money -= 1500;
+            logEvent("You have to pay 1500rp for all your recoveries");
+        } else if (diceRoll === 3) {
             update_money -= 3000;
-        }
-        else if(diceRoll == 5) {
-            update_money -= 2000;
+            logEvent("You have to pay 3000rp for the bank to keep your Limit");
+        } else if (diceRoll === 5) {
+            update_money -= 1500;
+            logEvent("You have to recover you losses by paying 1500rp");
         }
     }
     document.getElementById(money).innerText = update_money;
 }
+
 
 //buy property
 buy1.addEventListener("click", () => {
@@ -336,6 +392,7 @@ buy1.addEventListener("click", () => {
 buy2.addEventListener("click", () => {
     handleBuy2('player2');
 });
+
 function handleBuy1(player) {
     let positions = playerPositions[player];
     let propertyIndex = properties.indexOf(properties[positions]);
@@ -357,13 +414,13 @@ function handleBuy1(player) {
                 document.querySelector(`.Money${propertyId}`).innerText = "Red's";
                 logEvent(`${player} bought ${House} for ${propertyMoney}`);
             } else {
-                alert("Not Enough Money");
+               alert("Not Enough Money");
             }
         } else {
             console.log("invalid property");
         }
     } else {
-        alert("You Can't Buy the Property");
+        alert("Already Sold");
     }
 }
 function handleBuy2(player) {
@@ -404,25 +461,10 @@ function checkRent(propertyId, player) {
     propertyRent.Boat.rent = diceRoll * 200;
     propertyRent.Electronics.rent = diceRoll * 100;
 
-    // Initialize Income and Wealth Tax
-    let IncomeTax1 = 0;
-    let WealthTax1 = 0;
-    let IncomeTax2 = 0;
-    let WealthTax2 = 0;
-    for (let i of redProperty) {
-        WealthTax1 += 150;
-        IncomeTax1 += 150;
-    }
-    for (let i of blueProperty) {
-        WealthTax2 += 150;
-        IncomeTax2 += 150;
-    }
 
     // Get property money ownership info
     let propertyMoney = document.querySelector(`.Money${propertyId}`).innerText;
     const propertyElement = document.getElementById(properties[propertyId]);
-    const TaxHouse1 = document.querySelector('.card-text1').innerText;
-    const TaxHouse2 = document.querySelector('.card-text2').innerText;
     let update_money2 = parseInt(money2.innerText);
     let update_money1 = parseInt(money1.innerText);
 
@@ -433,6 +475,7 @@ function checkRent(propertyId, player) {
         update_money1 += houseRent;
         money2.innerText = update_money2;
         money1.innerText = update_money1;
+        logEvent(`you paid ${houseRent} as a rent for Player 1`);
     }
     if (propertyMoney === "Blue's" && player === 'player1') {
         const rentHouse = propertyElement.querySelector('.card-text').innerText;
@@ -441,6 +484,7 @@ function checkRent(propertyId, player) {
         update_money2 += houseRent;
         money1.innerText = update_money1;
         money2.innerText = update_money2;
+        logEvent(`you paid ${houseRent} as a rent for Player 2`);
     }
     if (propertyMoney === "Red's" && player === 'player1') {
         buy1.disabled = false;
@@ -449,20 +493,6 @@ function checkRent(propertyId, player) {
     if (propertyMoney === "Blue's" && player === 'player2') {
         buy2.disabled = false;
         buy2.innerText = "Buying A house?";
-    }
-    if(TaxHouse1 === "WealthTax" && player === 'player2') {
-        update_money2 -= WealthTax2;
-        money2.innerText = update_money2;
-    } else if(TaxHouse2 === "IncomeTax" && player === 'player2') {
-        update_money2 -= IncomeTax2;
-        money2.innerText = update_money2;
-    }
-    if(TaxHouse1 === "WealthTax" && player === 'player1') {
-        update_money1 -= WealthTax1;
-        money1.innerText = update_money1;
-    } else if(TaxHouse2 === "IncomeTax" && player === 'player1') {
-        update_money1 -= IncomeTax1;
-        money1.innerText = update_money1;
     }
 }
 
@@ -484,10 +514,8 @@ function getDiceFace(number) {
     return faces[number - 1];
 }
 
-//To Show Messages
+//message box
 function logEvent(message) {
-    const log = document.getElementById('log');
-    const logItem = document.createElement('span');
-    logItem.textContent = message;
-    log.appendChild(logItem);
+    const log = document.getElementById('messageBox');
+    log.innerText = message;
 }
