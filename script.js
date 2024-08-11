@@ -486,14 +486,14 @@ function checkRent(propertyId, player) {
         money2.innerText = update_money2;
         logEvent(`you paid ${houseRent} as a rent for Player 2`);
     }
-    if (propertyMoney === "Red's" && player === 'player1') {
-        buy1.disabled = false;
-        buy1.innerText = "Buying A house?";
-    }
-    if (propertyMoney === "Blue's" && player === 'player2') {
-        buy2.disabled = false;
-        buy2.innerText = "Buying A house?";
-    }
+    // if (propertyMoney === "Red's" && player === 'player1') {
+    //     buy1.disabled = false;
+    //     buy1.innerText = "Buying A house?";
+    // }
+    // if (propertyMoney === "Blue's" && player === 'player2') {
+    //     buy2.disabled = false;
+    //     buy2.innerText = "Buying A house?";
+    // }
 }
 
 
